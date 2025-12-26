@@ -1,0 +1,66 @@
+# Конфигурация целевых серверов для отправки данных Meshtastic
+# 
+# Структура:
+# - name: название сервера (обязательно)
+# - host: IP адрес или домен (обязательно)
+# - port: порт сервера (обязательно)
+# - allowed_types: список разрешенных типов сообщений (обязательно)
+#   Доступные типы: text, nodeinfo, position, telemetry
+# - enable: включен ли сервер (по умолчанию true)
+# - impedance_key: ключ импедантности для идентификации (опционально)
+# - path: путь API на целевом сервере (по умолчанию /api/meshtastic)
+# - timeout: таймаут запроса в секундах (по умолчанию 10)
+# - retry_enabled: включить повторные попытки при ошибках (по умолчанию true)
+# - retry_max_attempts: максимальное количество попыток (по умолчанию 3)
+# - retry_delay: начальная задержка между попытками в секундах (по умолчанию 1.0)
+# - retry_backoff: множитель для экспоненциальной задержки (по умолчанию 2.0)
+
+target_servers:
+  - name: server1
+    host: localhost
+    port: 8080
+    allowed_types:
+      - text
+      - nodeinfo
+      - position
+      - telemetry
+    enable: true
+    impedance_key: server1_key
+    path: /api/meshtastic
+    timeout: 10
+    retry_enabled: true
+    retry_max_attempts: 3
+    retry_delay: 1.0
+    retry_backoff: 2.0
+
+  # Пример второго сервера
+  # - name: server2
+  #   host: example.com
+  #   port: 443
+  #   allowed_types:
+  #     - text
+  #     - position
+  #   enable: true
+  #   impedance_key: server2_key
+  #   path: /api/v1/meshtastic
+  #   timeout: 15
+  #   retry_enabled: true
+  #   retry_max_attempts: 5
+  #   retry_delay: 2.0
+  #   retry_backoff: 1.5
+
+# Конфигурация MQTT брокера (опционально, можно задать через переменные окружения)
+mqtt:
+  host: localhost
+  port: 1883
+  username: ""
+  password: ""
+  topic: msh/#
+  client_id: transport-service-mqtt
+  keepalive: 60
+  qos: 1
+  payload_format: both  # json | protobuf | both
+
+# Общие настройки
+impedance_key: default
+log_level: INFO
